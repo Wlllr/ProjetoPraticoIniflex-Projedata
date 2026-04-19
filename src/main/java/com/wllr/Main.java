@@ -1,17 +1,67 @@
-package com.wllr;
+import com.wllr.Funcionario;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.*;
 
-public class Main {
-    public static void main(String[] args) {
-        Funcionario novoFuncionario = new Funcionario(
-                "Weller",
-                LocalDate.of(1998, 7, 5),
-                new BigDecimal("1645.00"),
-                "Auxiliar de Ti"
-        );
 
-        System.out.println(novoFuncionario);
-    }
+public static void main(String[] args) {
+    // 3.1 - Inserir todos os funcionários em ordem
+    List<Funcionario> listaFuncionarios = cargaFuncionarios();
+
+    // 3.1.1 - Imprime a lista inicial com todos os Funcionários por ordem de inserção
+    headerDaFuncionalidade("--- Lista de Funcionários Inicial ---");
+    imprimelistaDeFuncionarios(listaFuncionarios);
+    formatadorDeEspacamento();
+
+    // 3.2 – Remover o funcionário “João”
+    headerDaFuncionalidade("--- Lista de Funcionários atualizada sem o Joao ---");
+    imprimeListaSemJoao(listaFuncionarios);
+    formatadorDeEspacamento();
+
+    // 3.4 – Aumento de 10%
+    headerDaFuncionalidade("--- Lista de Funcionários com acrescimo de salario em 10% ---");
+    imprimeListaComSalariosAtulizados(listaFuncionarios);
+    formatadorDeEspacamento();
+
+
+}
+
+private static void imprimeListaComSalariosAtulizados(List<Funcionario> listaFuncionarios) {
+    listaFuncionarios.forEach(cadaFuncionario -> cadaFuncionario.setSalario(cadaFuncionario.getSalario().multiply(new BigDecimal("1.10"))));
+    imprimelistaDeFuncionarios(listaFuncionarios);
+}
+
+private static void imprimeListaSemJoao(List<Funcionario> listaFuncionarios) {
+    listaFuncionarios.removeIf(cadaFuncionario -> cadaFuncionario.getNome().equalsIgnoreCase("João"));
+    imprimelistaDeFuncionarios(listaFuncionarios);
+}
+
+private static void formatadorDeEspacamento() {
+    System.out.println();
+}
+
+private static void imprimelistaDeFuncionarios(List<Funcionario> listaFuncionarios) {
+    listaFuncionarios.forEach(System.out::println);
+}
+
+
+private static List<Funcionario> cargaFuncionarios() {
+    List<Funcionario> funcionarios = new ArrayList<>(Arrays.asList(
+            new Funcionario("Maria", LocalDate.of(2000, 10, 18), new BigDecimal("2009.44"), "Operador"),
+            new Funcionario("João", LocalDate.of(1990, 5, 12), new BigDecimal("2284.38"), "Operador"),
+            new Funcionario("Caio", LocalDate.of(1961, 5, 2), new BigDecimal("9836.14"), "Coordenador"),
+            new Funcionario("Miguel", LocalDate.of(1988, 10, 14), new BigDecimal("19119.88"), "Diretor"),
+            new Funcionario("Alice", LocalDate.of(1995, 1, 5), new BigDecimal("2234.68"), "Recepcionista"),
+            new Funcionario("Heitor", LocalDate.of(1999, 11, 19), new BigDecimal("1582.72"), "Operador"),
+            new Funcionario("Arthur", LocalDate.of(1993, 3, 31), new BigDecimal("4071.84"), "Contador"),
+            new Funcionario("Laura", LocalDate.of(1994, 7, 8), new BigDecimal("3017.45"), "Gerente"),
+            new Funcionario("Heloísa", LocalDate.of(2003, 5, 24), new BigDecimal("1606.85"), "Eletricista"),
+            new Funcionario("Helena", LocalDate.of(1996, 9, 2), new BigDecimal("2799.93"), "Gerente")
+    ));
+    return funcionarios;
+}
+
+private static void headerDaFuncionalidade(String mensagemTitulo) {
+    System.out.println(mensagemTitulo);
 }
