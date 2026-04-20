@@ -1,50 +1,67 @@
 import com.wllr.Funcionario;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.*;
+import com.wllr.FuncionarioService;
 
 
 public static void main(String[] args) {
-    // 3.1 - Inserir todos os funcionários em ordem
-    List<Funcionario> listaFuncionarios = cargaFuncionarios();
+    FuncionarioService service = new FuncionarioService();
+    BigDecimal salarioMinimo = new BigDecimal("1212.00");
 
-    // 3.1.1 - Imprime a lista inicial com todos os Funcionários por ordem de inserção
-    headerDaFuncionalidade("--- Lista de Funcionários Inicial ---");
-    imprimelistaDeFuncionarios(listaFuncionarios);
-    formatadorDeEspacamento();
+    // 3.1 e 3.3 - Carga de funcionarios respeitando o item 3.3
+    List<Funcionario> lista = cargaFuncionarios();
+    header("3.1 - Lista de funcionarios por ordem de inserçao:");
+    service.imprimirLista(lista);
 
-    // 3.2 – Remover o funcionário “João”
-    headerDaFuncionalidade("--- Lista de Funcionários atualizada sem o Joao ---");
-    imprimeListaSemJoao(listaFuncionarios);
-    formatadorDeEspacamento();
+    // 3.2 - Remove o funcionario Joao da lista e imprime a lista atualizada
+    service.removerJoao(lista);
+    header("\n3.2 - Lista atualizada (Sem Joao):");
+    service.imprimirLista(lista);
 
-    // 3.4 – Aumento de 10%
-    headerDaFuncionalidade("--- Lista de Funcionários com acrescimo de salario em 10% ---");
-    imprimeListaComSalariosAtulizados(listaFuncionarios);
-    formatadorDeEspacamento();
+    // 3.4 - Lista de funcionarios com acrescimo de 10% do salario
+    service.aplicarAumento(lista, new BigDecimal("0.10"));
+    header("\n3.4 - Lista de funcionarios com salario acrescido em 10%: ");
+    service.imprimirLista(lista);
+
+    // 3.5 e 3.6 - Agrupa e imprime a lista de funcionaros por funcao
+    header("\n3.5 e 3.6 - Imprime a lista de funcionarios por funcao:");
+    Map<String, List<Funcionario>> agrupados = service.agruparPorFuncao(lista);
+    agrupados.forEach((funcao, funcList) -> {
+        System.out.println("\nFunção - " + funcao + " : ");
+        service.imprimirLista(funcList);
+    });
+    formatadorEspaco();
+
+    // 3.8 - Imprime os aniversariantes dos meses 10 e 12
+    header("\n3.8 - Aniversariantes de Outubro (10) e Dezembro (12):");
+    service.imprimirAniversariantesMes10e12(lista);
 
 
+    // 3.9 - Imprime o funcionario com maior senioridade da empresa ;)
+    header("\n3.9 - Funcionário com a maior idade:");
+    service.imprimirMaisVelho(lista);
+
+
+    // 3.10 - Imprime a lista de funcionarios em ordem alfabetica
+    header("\n3.10 - Lista em ordem alfabética:");
+    service.imprimirOrdemAlfabetica(lista);
+
+
+    // 3.11 - imprime o somatorio total dos funcionarios
+    header("\n3.11 - Total de Salários:");
+    service.imprimirTotalSalarios(lista);
+
+
+    // 3.12 - Salários mínimos
+    header("3.12 - Quantidade de salários mínimos por funcionário:");
+    service.imprimirQtdSalariosMinimos(lista, salarioMinimo);
 }
 
-private static void imprimeListaComSalariosAtulizados(List<Funcionario> listaFuncionarios) {
-    listaFuncionarios.forEach(cadaFuncionario -> cadaFuncionario.setSalario(cadaFuncionario.getSalario().multiply(new BigDecimal("1.10"))));
-    imprimelistaDeFuncionarios(listaFuncionarios);
+private static void header(String textoParaHeader) {
+    System.out.println(textoParaHeader);
 }
 
-private static void imprimeListaSemJoao(List<Funcionario> listaFuncionarios) {
-    listaFuncionarios.removeIf(cadaFuncionario -> cadaFuncionario.getNome().equalsIgnoreCase("João"));
-    imprimelistaDeFuncionarios(listaFuncionarios);
-}
-
-private static void formatadorDeEspacamento() {
+private static void formatadorEspaco() {
     System.out.println();
 }
-
-private static void imprimelistaDeFuncionarios(List<Funcionario> listaFuncionarios) {
-    listaFuncionarios.forEach(System.out::println);
-}
-
 
 private static List<Funcionario> cargaFuncionarios() {
     List<Funcionario> funcionarios = new ArrayList<>(Arrays.asList(
@@ -62,6 +79,3 @@ private static List<Funcionario> cargaFuncionarios() {
     return funcionarios;
 }
 
-private static void headerDaFuncionalidade(String mensagemTitulo) {
-    System.out.println(mensagemTitulo);
-}
