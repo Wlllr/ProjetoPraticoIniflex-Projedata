@@ -55,14 +55,12 @@ public static void main(String[] args) {
     service.imprimirQtdSalariosMinimos(lista, salarioMinimo);
 }
 
+// Funcao criada para colocar headers com titulos personalizados para cada uma da funcionalidades
 private static void header(String textoParaHeader) {
     System.out.println(textoParaHeader);
 }
 
-private static void formatadorEspaco() {
-    System.out.println();
-}
-
+// Carga de funcionarios fornecido para o projeto
 private static List<Funcionario> cargaFuncionarios() {
     List<Funcionario> funcionarios = new ArrayList<>(Arrays.asList(
             new Funcionario("Maria", LocalDate.of(2000, 10, 18), new BigDecimal("2009.44"), "Operador"),
